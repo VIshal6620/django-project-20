@@ -31,6 +31,7 @@ class UserService(BaseService):
         sql += " limit %s, %s"
         cursor = connection.cursor()
         print("--------", sql, pageNo, self.pageSize)
+        params['index'] = ((params['pageNo'] - 1) * self.pageSize) + 1
         cursor.execute(sql, [pageNo, self.pageSize])
         result = cursor.fetchall()
         columnName = ("id", "firstName", "lastName", "loginId", "password", "confirmPassword",

@@ -1,3 +1,4 @@
+from django.contrib.admindocs.utils import default_reference_role
 from django.shortcuts import redirect, render
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.sessions.models import Session
@@ -15,6 +16,12 @@ def action(request, page):
     ctlObj = eval(ctlName)
     return ctlObj.execute(request, {"id": 0})
 
+@csrf_exempt
+def actionId(request,page="",operation="",id=0):
+    ctlName = page + "Ctl()"
+    ctlobj = eval(ctlName)
+    res = ctlobj.execute(request,{"id":id,"operation":operation})
+    return res
 
 def index(request):
     res = render(request, 'Welcome.html')
