@@ -10,18 +10,21 @@ from .ctl.UserCtl import UserCtl
 from .ctl.RoleCtl import RoleCtl
 from .ctl.UserListCtl import UserListCtl
 
+
 @csrf_exempt
 def action(request, page):
     ctlName = page + "Ctl()"
     ctlObj = eval(ctlName)
     return ctlObj.execute(request, {"id": 0})
 
+
 @csrf_exempt
-def actionId(request,page="",operation="",id=0):
+def actionId(request, page="", operation="", id=0):
     ctlName = page + "Ctl()"
-    ctlobj = eval(ctlName)
-    res = ctlobj.execute(request,{"id":id,"operation":operation})
+    ctlObj = eval(ctlName)
+    res = ctlObj.execute(request, {"id": id, "operation": operation})
     return res
+
 
 def index(request):
     res = render(request, 'Welcome.html')

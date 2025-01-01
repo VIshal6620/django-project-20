@@ -63,7 +63,7 @@ class RegistrationCtl(BaseCtl):
             inputError['firstName'] = "First Name is required"
             self.form['error'] = True
         else:
-            if (DataValidator.isalphacehck(self.form['firstName'])):
+            if (DataValidator.isAlphaCheck(self.form['firstName'])):
                 inputError['firstName'] = "First Name contains only letters"
                 self.form['error'] = True
 
@@ -71,7 +71,7 @@ class RegistrationCtl(BaseCtl):
             inputError['lastName'] = "Last Name is required"
             self.form['error'] = True
         else:
-            if (DataValidator.isalphacehck(self.form['lastName'])):
+            if (DataValidator.isAlphaCheck(self.form['lastName'])):
                 inputError['lastName'] = "Last Name contains only letters"
                 self.form['error'] = True
 
@@ -79,7 +79,7 @@ class RegistrationCtl(BaseCtl):
             inputError["loginId"] = "Login ID is required"
             self.form["error"] = True
         else:
-            if (DataValidator.isemail(self.form['loginId'])):
+            if (DataValidator.isEmail(self.form['loginId'])):
                 inputError['loginId'] = "login ID must be like student@gmail.com"
                 self.form['error'] = True
 
@@ -115,7 +115,7 @@ class RegistrationCtl(BaseCtl):
             inputError['mobileNumber'] = "Mobile Number is required"
             self.form['error'] = True
         else:
-            if (DataValidator.ismobilecheck(self.form['mobileNumber'])):
+            if (DataValidator.isMobileCheck(self.form['mobileNumber'])):
                 inputError['mobileNumber'] = "Enter Correct Mobile No."
                 self.form['error'] = True
         return self.form['error']
