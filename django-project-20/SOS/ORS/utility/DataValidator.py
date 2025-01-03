@@ -21,8 +21,8 @@ class DataValidator:
     @classmethod
     def isDate(self, val):
         if re.match("([0-2]\d{3})-(0\d|1[0-2])-([0-2]\d|3[01])", val):
-            if (datetime.strptime(val, "%Y-%m-%d") <= datetime.strptime(str(date.today()),
-                                                                        "%Y-%m-%d")):  # Comparing date with current date
+            if (datetime.strptime(val, "%Y-%middleware-%d") <= datetime.strptime(str(date.today()),
+                                                                        "%Y-%middleware-%d")):  # Comparing date with current date
                 return False
             else:
                 return True

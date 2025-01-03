@@ -51,7 +51,7 @@
             <tr>
                 <th>Gender:</th>
                 <td>
-                    {{ gender_preload|safe }}
+                    {{ form.preload.gender|safe }}
                 </td>
                 <td style="position: fixed; color: red;"> {{ form.inputError.gender }}</td>
             </tr>
@@ -63,7 +63,7 @@
             <tr>
                 <th>Role:</th>
                 <td>
-                    {{ role_preload|safe }}
+                    {{ form.preload.role|safe }}
                 </td>
                 <td style="position: fixed; color: red;"> {{ form.inputError.roleId }}</td>
             </tr>

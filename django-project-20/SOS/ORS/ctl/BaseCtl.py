@@ -3,10 +3,9 @@ from abc import ABC, abstractmethod
 
 
 class BaseCtl(ABC):
-    preload_data = {}
     dynamic_preload = {}
     static_preload = {}
-    page_list = []
+    page_list = {}
 
     def __init__(self):
         self.form = {}
@@ -15,12 +14,13 @@ class BaseCtl(ABC):
         self.form["error"] = False
         self.form["inputError"] = {}
         self.form["pageNo"] = 1
+        self.form["preload"] = {}
 
-    def preload(self, request,id):
+    def preload(self, request, id):
         pass
 
     def execute(self, request, params={}):
-        self.preload(request,params)
+        self.preload(request, params)
         if "GET" == request.method:
             return self.display(request, params)
         elif "POST" == request.method:
@@ -28,12 +28,14 @@ class BaseCtl(ABC):
             if self.input_validation():
                 return self.display(request, params)
             else:
-                if (request.POST.get("operation")=="delete"):
-                    return self.deleteRecord(request,params)
-                elif (request.POST.get("operation")=="next"):
-                    return self.next(request,params)
-                elif (request.POST.get("operation")=="previous"):
-                    return self.previous(request,params)
+                if (request.POST.get("operation") == "delete"):
+                    return self.deleteRecord(request, params)
+                elif (request.POST.get("operation") == "next"):
+                    return self.next(request, params)
+                elif (request.POST.get("operation") == "previous"):
+                    return self.previous(request, params)
+                elif (request.POST.get("operation") == "new"):
+                    return self.new(request, params)
                 else:
                     return self.submit(request, params)
         else:
