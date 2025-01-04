@@ -74,7 +74,7 @@ class UserCtl(BaseCtl):
         self.form["loginId"] = obj.loginId
         self.form["password"] = obj.password
         self.form["confirmPassword"] = obj.confirmPassword
-        self.form["dob"] = obj.dob.strftime("%Y-%middleware-%d")
+        self.form["dob"] = obj.dob.strftime("%Y-%m-%d")
         self.form["address"] = obj.address
         self.form["gender"] = obj.gender
         self.form["mobileNumber"] = obj.mobileNumber
@@ -144,11 +144,9 @@ class UserCtl(BaseCtl):
         return self.form['error']
 
     def display(self, request, params={}):
-
         if (params['id'] > 0):
             obj = self.get_service().get(params['id'])
             self.model_to_form(obj)
-
         res = render(request, self.get_template(), {'form': self.form})
         return res
 
