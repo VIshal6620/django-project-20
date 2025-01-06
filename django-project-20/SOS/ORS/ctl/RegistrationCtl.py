@@ -92,7 +92,7 @@ class RegistrationCtl(BaseCtl):
             inputError["loginId"] = "Login ID is required"
             self.form["error"] = True
         else:
-            if (DataValidator.isEmail(self.iform['loginId'])):
+            if (DataValidator.isEmail(self.form['loginId'])):
                 inputError['loginId'] = "login ID must be like student@gmail.com"
                 self.form['error'] = True
 
@@ -101,11 +101,11 @@ class RegistrationCtl(BaseCtl):
             self.form['error'] = True
 
         if (DataValidator.isNull(self.form['confirmPassword'])):
-            inputError['confirmPassword'] = "Confirm Passsword is required"
+            inputError['confirmPassword'] = "Confirm Password is required"
             self.form['error'] = True
         if (DataValidator.isNotNull(self.form['confirmPassword'])):
             if self.form['password'] != self.form['confirmPassword']:
-                inputError['confirmPassword'] = "Password and Confirmpassword are not same"
+                inputError['confirmPassword'] = "Password and ConfirmPassword are not same"
                 self.form['error'] = True
 
         if (DataValidator.isNull(self.form["dob"])):

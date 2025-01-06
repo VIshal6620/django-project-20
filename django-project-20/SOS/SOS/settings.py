@@ -12,11 +12,12 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 import os
 from pathlib import Path
 
-from django.conf.global_settings import EMAIL_BACKEND
+from django.conf.global_settings import EMAIL_BACKEND, STATICFILES_DIRS
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 ORS_TEMPLATE = os.path.join(BASE_DIR, "ORS/template")
+STATIC_DIR = os.path.join(BASE_DIR, 'ORS/static')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -120,6 +121,8 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+STATICFILES_DIRS = [STATIC_DIR]
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
@@ -131,4 +134,4 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'vishalvish@gmail.com'
-EMAIL_HOST_PASSWORD = 'uhqn lrdu yeld wyrz'
+EMAIL_HOST_PASSWORD = 'pass123'
