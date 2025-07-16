@@ -36,3 +36,19 @@ class Role(models.Model):
 
     class Meta:
         db_table = 'sos_role'
+
+class Position(models.Model):
+    designation = models.CharField(max_length=50)
+    openingDate = models.DateField(max_length=15)
+    requiredExperience = models.CharField(max_length=20)
+    condition = models.CharField(max_length=50)
+
+    def get_key(self):
+        return str(self.id)
+
+    def get_value(self):
+        return self.condition
+
+    class Meta:
+        db_table = 'sos_position'
+

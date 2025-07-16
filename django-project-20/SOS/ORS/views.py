@@ -10,6 +10,8 @@ from .ctl.UserCtl import UserCtl
 from .ctl.RoleCtl import RoleCtl
 from .ctl.UserListCtl import UserListCtl
 from .ctl.ForgetPasswordCtl import ForgetPasswordCtl
+from .ctl.PositionCtl import PositionCtl
+from .ctl.PositionListCtl import PositionListCtl
 
 
 @csrf_exempt

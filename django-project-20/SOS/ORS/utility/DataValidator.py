@@ -1,75 +1,52 @@
-from datetime import *
+from datetime import datetime, date
 import re
 
 
 class DataValidator:
 
     @classmethod
-    def isNotNull(self, val):
-        if (val == None or val == ""):
+    def isNotNull(cls, val):
+        return val is not None and str(val).strip() != ""
+
+    @classmethod
+    def isNull(cls, val):
+        return val is None or str(val).strip() == ""
+
+    @classmethod
+    def isDate(cls, val):
+        try:
+            # valid date format and date should be in future
+            input_date = datetime.strptime(val, "%Y-%m-%d")
+            return input_date > datetime.today()
+        except:
             return False
-        else:
-            return True
 
     @classmethod
-    def isNull(self, val):
-        if (val == None or val == ""):
-            return True
-        else:
+    def isCheck(cls, val):
+        try:
+            num = int(val)
+            return 0 <= num <= 100
+        except:
             return False
 
     @classmethod
-    def isDate(self, val):
-        if re.match("([0-2]\d{3})-(0\d|1[0-2])-([0-2]\d|3[01])", val):
-            if (datetime.strptime(val, "%Y-%m-%d") <= datetime.strptime(str(date.today()),
-                                                                        "%Y-%m-%d")):  # Comparing date with current date
-                return False
-            else:
-                return True
-        else:
-            return True
+    def isCheckRoll(cls, val):
+        # At least one uppercase and one digit
+        return bool(re.match(r"^(?=.*[A-Z])(?=.*\d).+$", val))
 
     @classmethod
-    def isCheck(self, val):
-        if (val == None or val == ""):
-            return True
-        else:
-            if (0 <= int(val) <= 100):
-                return False
-            else:
-                return True
+    def isAlphaCheck(cls, val):
+        # Only alphabets and space
+        return bool(re.match(r"^[a-zA-Z\s]+$", val))
 
     @classmethod
-    def isCheckRoll(self, val):
-        if re.match("^(?=.*[0-9]$)(?=.*[A-Z])", val):
-            return False
-        else:
-            return True
+    def isMobileCheck(cls, val):
+        return bool(re.match(r"^[6-9]\d{9}$", val))
 
     @classmethod
-    def isAlphaCheck(self, val):
-        if re.match("^[a-zA-z\s]+$", val):
-            return False
-        else:
-            return True
+    def isEmail(cls, val):
+        return bool(re.match(r"[^@]+@[^@]+\.[^@]+", val))
 
     @classmethod
-    def isMobileCheck(self, val):
-        if re.match("^[6-9]\d{9}$", val):
-            return False
-        else:
-            return True
-
-    @classmethod
-    def isEmail(self, val):
-        if re.match("[^@]+@[^@]+\.[^@]+", val):
-            return False
-        else:
-            return True
-
-    @classmethod
-    def isPhoneCheck(self, val):
-        if re.match("^(?:(?:\+|0{0,2})91(\s*[\ -]\s*)?|[0]?)?[789]\d{9}|(\d[ -]?){10}\d$", val):
-            return False
-        else:
-            return True
+    def isPhoneCheck(cls, val):
+        return bool(re.match(r"^(?:(?:\+|0{0,2})91[\s-]?)?[6-9]\d{9}$", val))
