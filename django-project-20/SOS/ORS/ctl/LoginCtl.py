@@ -15,19 +15,19 @@ class LoginCtl(BaseCtl):
 
         inputError = self.form["inputError"]
 
-        if (DataValidator.isNull(self.form["loginId"])):
-            inputError["loginId"] = "Login ID is required"
-            self.form["error"] = True
-        else:
-            if (DataValidator.isEmail(self.form["loginId"])):
-                inputError['loginId'] = "Login ID Must Be Email"
-                self.form['error'] = True
+        if DataValidator.isNull(self.form['loginId']):
+            inputError['loginId'] = "loginId is required"
+            self.form['error'] = True
+        elif not DataValidator.isEmail(self.form['loginId']):
+            inputError['loginId'] = "Login ID Must Be Email"
+            self.form['error'] = True
 
         if (DataValidator.isNull(self.form['password'])):
             inputError["password"] = "Password is Required"
             self.form['error'] = True
 
         return self.form["error"]
+
 
     def display(self, request, params={}):
         res = render(request, self.get_template(), {'form': self.form})

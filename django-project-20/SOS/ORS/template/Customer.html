@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% load static %}
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
+</head>
+<body>
+{% include "Header.html" %}
+<form action="/ORS/Customer/" method="POST">
+    {% csrf_token %}
+    <div align="center">
+        <h1>Add Customer:</h1>
+        <h3><font color="green">{{ form.message }}</font></h3>
+        <table>
+            <input type="hidden" name="id" value="{{form.id}}">
+            <tr>
+                <th>clientName:</th>
+                <td><input type="text" name="clientName" value="{{form.clientName}}"></td>
+                <td style="position:fixed; color:red;">{{ form.inputError.clientName }}</td>
+            </tr>
+            <tr>
+                <th>location:</th>
+                <td><input type="text" name="location" value="{{form.location}}"></td>
+                <td style="position: fixed; color: red;">{{ form.inputError.location}}</td>
+            </tr>
+            <tr>
+                <th>contactNumber</th>
+                <td><input type="text" name="contactNumber" value="{{form.contactNumber}}"></td>
+                <td style="position: fixed; color: red;">{{ form.inputError.contactNumber }}</td>
+            </tr>
+            <tr>
+                <th>importance:</th>
+                <td>
+                    {{ form.preload.importance|safe }}
+                </td>
+                <td style="position: fixed; color: red;">{{ form.inputError.importance }}</td>
+            </tr>
+            <tr>
+                <th></th>
+                <td><input type="submit" value="save"></td>
+            </tr>
+        </table>
+    </div>
+</form>
+</body>
+</html>

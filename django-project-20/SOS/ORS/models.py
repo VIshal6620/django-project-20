@@ -52,3 +52,17 @@ class Position(models.Model):
     class Meta:
         db_table = 'sos_position'
 
+class Customer(models.Model):
+    clientName = models.CharField(max_length=30)
+    location = models.CharField(max_length=50)
+    contactNumber = models.CharField(max_length=15)
+    importance = models.CharField(max_length=30)
+
+    def get_key(self):
+        return (self.id)
+
+    def get_value(self):
+        return self.clientName
+
+    class Meta:
+        db_table = 'sos_Customer'

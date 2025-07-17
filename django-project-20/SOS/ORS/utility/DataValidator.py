@@ -1,7 +1,6 @@
 from datetime import datetime, date
 import re
 
-
 class DataValidator:
 
     @classmethod
@@ -15,7 +14,6 @@ class DataValidator:
     @classmethod
     def isDate(cls, val):
         try:
-            # valid date format and date should be in future
             input_date = datetime.strptime(val, "%Y-%m-%d")
             return input_date > datetime.today()
         except:
@@ -31,12 +29,10 @@ class DataValidator:
 
     @classmethod
     def isCheckRoll(cls, val):
-        # At least one uppercase and one digit
         return bool(re.match(r"^(?=.*[A-Z])(?=.*\d).+$", val))
 
     @classmethod
     def isAlphaCheck(cls, val):
-        # Only alphabets and space
         return bool(re.match(r"^[a-zA-Z\s]+$", val))
 
     @classmethod

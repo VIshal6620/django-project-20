@@ -10,25 +10,25 @@ from ..utility.HtmlUtility import HTMLUtility
 
 class PositionCtl(BaseCtl):
 
-    def preload(self, request, params):
+    def preload(self, request, params={}):
+        self.form['condition'] = request.POST.get('condition', '')
 
-        self.form["condition"] = request.POST.get('condition', '')
-
-
-        if (params['id'] > 0):
+        if params.get('id') and params['id'] > 0:
             obj = self.get_service().get(params['id'])
-            self.form["condition"] = obj.condition
+            if obj:
+                self.form['condition'] = obj.condition
 
+        self.static_preload = {"open": "open", "onhold": "onhold", "hold": "hold"}
 
-        self.static_preload = {"open": "open", "onhold": "onhold","hold":"hold"}
+        # safe access preload
+        if 'preload' not in self.form:
+            self.form['preload'] = {}
 
-
-        self.form["preload"]["condition"] = HTMLUtility.get_list_from_dict(
+        self.form['preload']['condition'] = HTMLUtility.get_list_from_dict(
             'condition',
-            self.form["condition"],
+            self.form['condition'],
             self.static_preload
         )
-
 
     def request_to_form(self, requestForm):
         self.form["id"] = requestForm["id"]
@@ -62,37 +62,33 @@ class PositionCtl(BaseCtl):
         super().input_validation()
         inputError = self.form["inputError"]
 
-        if (DataValidator.isNull(self.form["designation"])):
-            inputError["designation"] = "designation is required"
-            self.form["error"] = True
-        # else:
-        #     if (DataValidator.isAlphaCheck(self.form['designation'])):
-        #         inputError['designation'] = "designation is required"
-        #         self.form['error'] = True
+        if DataValidator.isNull(self.form['designation']):
+            inputError['designation'] = "designation is required"
+            self.form['error'] = True
+        elif not DataValidator.isAlphaCheck(self.form['designation']):
+            inputError['designation'] = "designation must contain only letters"
+            self.form['error'] = True
 
-        if (DataValidator.isNull(self.form["openingDate"])):
-            inputError["openingDate"] = "openingDate is required"
-            self.form["error"] = True
-        else:
-            if (DataValidator.isDate(self.form['openingDate'])):
-                inputError['openingDate'] = "openingDate is required"
-                self.form['error'] = True
+        if DataValidator.isNull(self.form['openingDate']):
+            inputError['openingDate'] = "openingDate is required"
+            self.form['error'] = True
+        elif not DataValidator.isDate(self.form['openingDate']):
+            inputError['openingDate'] = "openingDate must contain only letters"
+            self.form['error'] = True
 
-        if (DataValidator.isNull(self.form["requiredExperience"])):
-            inputError["requiredExperience"] = "requiredExperience  is required"
-            self.form["error"] = True
-        else:
-            if (DataValidator.isAlphaCheck(self.form['requiredExperience'])):
-                inputError['loginId'] = "requiredExperience is required"
-                self.form['error'] = True
+        if DataValidator.isNull(self.form['requiredExperience']):
+            inputError['requiredExperience'] = "requiredExperience is required"
+            self.form['error'] = True
+        elif not DataValidator.isAlphaCheck(self.form['requiredExperience']):
+            inputError['requiredExperience'] = "requiredExperience must contain only letters"
+            self.form['error'] = True
 
-        if (DataValidator.isNull(self.form["condition"])):
-            inputError["condition"] = "condition is required"
-            self.form["error"] = True
-        # else:
-        #     if (DataValidator.isAlphaCheck(self.form['condition'])):
-        #         inputError['condition'] = "condition is required"
-        #         self.form['error'] = True
+        if DataValidator.isNull(self.form['condition']):
+            inputError['condition'] = "condition is required"
+            self.form['error'] = True
+        elif not DataValidator.isAlphaCheck(self.form['condition']):
+            inputError['condition'] = "condition must contain only letters"
+            self.form['error'] = True
         return self.form['error']
 
     def display(self, request, params={}):

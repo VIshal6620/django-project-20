@@ -37,3 +37,9 @@ class HTMLUtility:
 
         sb.append("\n</select>")
         return "".join(sb)
+
+    @staticmethod
+    def isAlphaCheck(val):
+        if val.isalpha():
+            return True
+        return False

@@ -12,6 +12,8 @@ from .ctl.UserListCtl import UserListCtl
 from .ctl.ForgetPasswordCtl import ForgetPasswordCtl
 from .ctl.PositionCtl import PositionCtl
 from .ctl.PositionListCtl import PositionListCtl
+from .ctl.CustomerCtl import CustomerCtl
+from .ctl.CustomerListCtl import CustomerListCtl
 
 
 @csrf_exempt

@@ -23,7 +23,7 @@ class UserService(BaseService):
             return None
 
     def search(self, params):
-        pageNo = ((params["pageNo"] - 1) * self.pageSize)
+        pageNo = (params["pageNo"] - 1) * self.pageSize
         sql = "select * from sos_user where 1=1"
         val = params.get("firstName", None)
         if DataValidator.isNotNull(val):

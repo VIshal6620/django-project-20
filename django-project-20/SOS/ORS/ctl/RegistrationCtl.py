@@ -1,10 +1,8 @@
-from django.shortcuts import render, redirect
-from django.http import HttpResponse
-from .BaseCtl import BaseCtl
-from ..utility.DataValidator import DataValidator
-from ..models import User
+from django.contrib.auth.models import User
+from django.shortcuts import render
+from ..ctl.BaseCtl import BaseCtl
 from ..service.UserService import UserService
-from ..service.RoleService import RoleService
+from ..utility.DataValidator import DataValidator
 from ..utility.HtmlUtility import HTMLUtility
 
 
@@ -72,29 +70,26 @@ class RegistrationCtl(BaseCtl):
     def input_validation(self):
         super().input_validation()
         inputError = self.form['inputError']
-        if (DataValidator.isNull(self.form['firstName'])):
+        if DataValidator.isNull(self.form['firstName']):
             inputError['firstName'] = "First Name is required"
             self.form['error'] = True
-        else:
-            if (DataValidator.isAlphaCheck(self.form['firstName'])):
-                inputError['firstName'] = "First Name contains only letters"
-                self.form['error'] = True
+        elif not DataValidator.isAlphaCheck(self.form['firstName']):
+            inputError['firstName'] = "First Name must contain only letters"
+            self.form['error'] = True
 
-        if (DataValidator.isNull(self.form['lastName'])):
+        if DataValidator.isNull(self.form['lastName']):
             inputError['lastName'] = "Last Name is required"
             self.form['error'] = True
-        else:
-            if (DataValidator.isAlphaCheck(self.form['lastName'])):
-                inputError['lastName'] = "Last Name contains only letters"
-                self.form['error'] = True
+        elif not DataValidator.isAlphaCheck(self.form['lastName']):
+            inputError['lastName'] = "Last Name must contain only letters"
+            self.form['error'] = True
 
-        if (DataValidator.isNull(self.form["loginId"])):
-            inputError["loginId"] = "Login ID is required"
-            self.form["error"] = True
-        else:
-            if (DataValidator.isEmail(self.form['loginId'])):
-                inputError['loginId'] = "login ID must be like student@gmail.com"
-                self.form['error'] = True
+        if DataValidator.isNull(self.form['loginId']):
+            inputError['loginId'] = "loginId is required"
+            self.form['error'] = True
+        elif not DataValidator.isEmail(self.form['loginId']):
+            inputError['loginId'] = "login ID must be like student@gmail.com"
+            self.form['error'] = True
 
         if (DataValidator.isNull(self.form['password'])):
             inputError['password'] = "Password is required"
@@ -124,13 +119,12 @@ class RegistrationCtl(BaseCtl):
             inputError['gender'] = "Gender is required"
             self.form['error'] = True
 
-        if (DataValidator.isNull(self.form['mobileNumber'])):
-            inputError['mobileNumber'] = "Mobile Number is required"
+        if DataValidator.isNull(self.form['mobileNumber']):
+            inputError['mobileNumber'] = "mobileNumber is required"
             self.form['error'] = True
-        else:
-            if (DataValidator.isMobileCheck(self.form['mobileNumber'])):
-                inputError['mobileNumber'] = "Enter Correct Mobile No."
-                self.form['error'] = True
+        elif not DataValidator.isMobileCheck(self.form['mobileNumber']):
+            inputError['mobileNumber'] = "mobileNumber is contain"
+            self.form['error'] = True
         return self.form['error']
 
     def display(self, request, params={}):

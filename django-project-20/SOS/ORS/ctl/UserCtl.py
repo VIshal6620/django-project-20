@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect
+
+from ..service.RoleService import RoleService
+from ..service.UserService import UserService
 from ..utility.DataValidator import DataValidator
 from ..utility.HtmlUtility import HTMLUtility
 from django.http import HttpResponse
 from .BaseCtl import BaseCtl
 from ..models import User
-from ..service.UserService import UserService
-from ..service.RoleService import RoleService
 
 
 class UserCtl(BaseCtl):
@@ -97,7 +98,7 @@ class UserCtl(BaseCtl):
             inputError["loginId"] = "Login ID is required"
             self.form["error"] = True
         else:
-            if (DataValidator.isEmail(self.form['loginId'])):
+            if (DataValidator.isemail(self.form['loginId'])):
                 inputError['loginId'] = "Login ID must be like student@gmail.com"
                 self.form['error'] = True
 
@@ -134,7 +135,7 @@ class UserCtl(BaseCtl):
             inputError["mobileNumber"] = "Mobile Number is required"
             self.form["error"] = True
         else:
-            if (DataValidator.isMobileCheck(self.form['mobileNumber'])):
+            if (DataValidator.ismobilecheck(self.form['mobileNumber'])):
                 inputError['mobileNumber'] = "Mobile No should start with 6,7,8,9"
                 self.form['error'] = True
 
