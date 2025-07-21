@@ -94,13 +94,12 @@ class UserCtl(BaseCtl):
             inputError["lastName"] = "Last Name is required"
             self.form["error"] = True
 
-        if (DataValidator.isNull(self.form["loginId"])):
-            inputError["loginId"] = "Login ID is required"
-            self.form["error"] = True
-        else:
-            if (DataValidator.isemail(self.form['loginId'])):
-                inputError['loginId'] = "Login ID must be like student@gmail.com"
-                self.form['error'] = True
+        if DataValidator.isNull(self.form['loginId']):
+            inputError['loginId'] = "loginId is required"
+            self.form['error'] = True
+        elif not DataValidator.isNotNull(self.form['loginId']):
+            inputError['loginId'] = "Login ID must be like student@gmail.com"
+            self.form['error'] = True
 
         if (DataValidator.isNull(self.form["password"])):
             inputError["password"] = "Password is required"
@@ -115,13 +114,12 @@ class UserCtl(BaseCtl):
                 inputError['confirmPassword'] = "Password & Confirm Password are not same"
                 self.form["error"] = True
 
-        if (DataValidator.isNull(self.form["dob"])):
-            inputError["dob"] = "DOB is required"
-            self.form["error"] = True
-        else:
-            if (DataValidator.isDate(self.form['dob'])):
-                inputError['dob'] = "Incorrect Date, should be YYYY-MM-DD"
-                self.form['error'] = True
+        if DataValidator.isNull(self.form['dob']):
+            inputError['dob'] = "dob is required"
+            self.form['error'] = True
+        elif not DataValidator.isNotNull(self.form['dob']):
+            inputError['dob'] = "dob must contain only yyyy-mm-dd"
+            self.form['error'] = True
 
         if (DataValidator.isNull(self.form['gender'])):
             inputError['gender'] = "Gender is required"
@@ -135,7 +133,7 @@ class UserCtl(BaseCtl):
             inputError["mobileNumber"] = "Mobile Number is required"
             self.form["error"] = True
         else:
-            if (DataValidator.ismobilecheck(self.form['mobileNumber'])):
+            if (DataValidator.isMobileCheck(self.form['mobileNumber'])):
                 inputError['mobileNumber'] = "Mobile No should start with 6,7,8,9"
                 self.form['error'] = True
 

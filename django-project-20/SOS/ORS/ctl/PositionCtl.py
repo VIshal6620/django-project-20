@@ -65,7 +65,7 @@ class PositionCtl(BaseCtl):
         if DataValidator.isNull(self.form['designation']):
             inputError['designation'] = "designation is required"
             self.form['error'] = True
-        elif not DataValidator.isAlphaCheck(self.form['designation']):
+        elif not DataValidator.isNotNull(self.form['designation']):
             inputError['designation'] = "designation must contain only letters"
             self.form['error'] = True
 
@@ -79,7 +79,7 @@ class PositionCtl(BaseCtl):
         if DataValidator.isNull(self.form['requiredExperience']):
             inputError['requiredExperience'] = "requiredExperience is required"
             self.form['error'] = True
-        elif not DataValidator.isAlphaCheck(self.form['requiredExperience']):
+        elif not DataValidator.isNotNull(self.form['requiredExperience']):
             inputError['requiredExperience'] = "requiredExperience must contain only letters"
             self.form['error'] = True
 
