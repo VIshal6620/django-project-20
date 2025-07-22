@@ -1,65 +1,172 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    {% load static %}
-    <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
+  <meta charset="UTF-8">
+  <title>Position List</title>
+  {% load static %}
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
+
+  <!-- Bootstrap & Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      background: linear-gradient(rgba(0, 0, 50, 0.6), rgba(0, 0, 100, 0.6)), url('/static/images/bg2.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      font-family: 'Segoe UI', sans-serif;
+      min-height: 100vh;
+    }
+
+    .container {
+      background-color: rgba(255, 255, 255, 0.95);
+      border-radius: 20px;
+      padding: 30px;
+      margin-top: 40px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    .table th, .table td {
+      vertical-align: middle;
+    }
+
+    .table thead {
+      background-color: #007bff;
+      color: white;
+    }
+
+    .table-hover tbody tr:hover {
+      background-color: #e9f5ff;
+    }
+
+    .form-control, .btn {
+      border-radius: 10px;
+    }
+
+    .btn i {
+      margin-right: 5px;
+    }
+
+    .pagination-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+
+    .search-row {
+      margin-bottom: 20px;
+    }
+
+    .select-all {
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
+
 {% include "Header.html" %}
+
 <form method="POST">
-    {% csrf_token %}
-    <div align="center">
-        <h1>PositionList:</h1>
-        <h3><font color="red">{{ form.message }}</font></h3>
+  {% csrf_token %}
+
+  <div class="container">
+    <h2 class="text-center text-primary mb-3">🧾 Position List</h2>
+    {% if form.message %}
+      <h6 class="text-center text-danger">{{ form.message }}</h6>
+    {% endif %}
+
+    <!-- Search Bar -->
+    <div class="row justify-content-center search-row">
+      <div class="col-md-4">
+        <input type="text" name="designation" class="form-control" placeholder="Search Designation...">
+      </div>
+      <div class="col-md-2">
+        <button type="submit" name="operation" value="search" class="btn btn-primary w-100">
+          <i class="fas fa-search"></i> Search
+        </button>
+      </div>
     </div>
-    <div align="center">
-        <table>
-            <tr>
-                <th>designation</th>
-                <td><input type="text" name="designation" placeholder="designation name is here"></td>
-                <td><input type="submit" name="operation" value="search"></td>
-            </tr>
-        </table>
-    </div>
-    <br>
-    <table border="2%" width="100%">
-        <tr>
-            <th><input type="checkbox" id="selectall"></th>
+
+    <!-- Position Table -->
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover text-center align-middle">
+        <thead>
+          <tr>
+            <th><input type="checkbox" id="selectall" class="select-all"></th>
             <th>S.No</th>
-            <th>designation</th>
-            <th>openingDate</th>
-            <th>requiredExperience</th>
-            <th>condition</th>
+            <th>Designation</th>
+            <th>Opening Date</th>
+            <th>Required Experience</th>
+            <th>Condition</th>
             <th>Edit</th>
-        </tr>
-        {% for l in pageList %}
-        <tr>
-            <td align="center"><input type="checkbox" class="case" name="ids" value="{{ l.id }}"></td>
-            <td align="center">{{ l.id }}</td>
-            <td align="center">{{ l.designation }}</td>
-            <td align="center">{{ l.openingDate }}</td>
-            <td align="center">{{ l.requiredExperience }}</td>
-            <td align="center">{{ l.condition }}</td>
-            <td align="center"><a href="/ORS/Position/Edit/{{ l.id }}">edit</a></td>
-        </tr>
-        {% endfor %}
-    </table>
-    <br>
-    <table style="width: 100%">
-        <tr>
-            <td style="width: 10%">
-                <input type="submit" name="operation" value="previous" {% if form.pageNo == 1 %} disabled {% endif %}>
+          </tr>
+        </thead>
+        <tbody>
+          {% for l in pageList %}
+          <tr>
+            <td><input type="checkbox" class="case" name="ids" value="{{ l.id }}"></td>
+            <td>{{ l.id }}</td>
+            <td>{{ l.designation }}</td>
+            <td>{{ l.openingDate }}</td>
+            <td>{{ l.requiredExperience }}</td>
+            <td>{{ l.condition }}</td>
+            <td>
+              <a href="/ORS/Position/Edit/{{ l.id }}" class="btn btn-sm btn-warning">
+                <i class="fas fa-edit"></i> Edit
+              </a>
             </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="7" class="text-muted">No records found.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
 
-            <td style="width: 25%"><input type="submit" name="operation" value="delete"></td>
+    <!-- Pagination & Actions -->
+    <div class="pagination-buttons">
+      <div>
+        <button type="submit" name="operation" value="previous" class="btn btn-primary"
+                {% if form.pageNo == 1 %} disabled {% endif %}>
+          <i class="fas fa-arrow-left"></i> Previous
+        </button>
+      </div>
 
-            <td style="text-align: right;">
-                <input type="submit" name="operation" value="next" {% if pageList|length < 5 %} disabled {% endif %}>
-            </td>
-        </tr>
-    </table>
+      <div>
+        <button type="submit" name="operation" value="delete" class="btn btn-danger">
+          <i class="fas fa-trash"></i> Delete
+        </button>
+      </div>
+
+      <div>
+        <button type="submit" name="operation" value="next" class="btn btn-primary"
+                {% if pageList|length < 5 %} disabled {% endif %}>
+          Next <i class="fas fa-arrow-right"></i>
+        </button>
+      </div>
+    </div>
+
+  </div>
 </form>
+
+<!-- Bootstrap JS & FontAwesome -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  // Select All functionality
+  document.addEventListener("DOMContentLoaded", function () {
+    const selectAll = document.getElementById("selectall");
+    const checkboxes = document.querySelectorAll(".case");
+
+    selectAll.addEventListener("click", function () {
+      checkboxes.forEach(cb => cb.checked = selectAll.checked);
+    });
+  });
+</script>
+
 </body>
 </html>

@@ -1,49 +1,155 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <title>Add Position</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <meta charset="UTF-8">
-    <title>Title</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    /* Google-like soft gradient background with animated movement */
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(-45deg, #1CB5E0, #000046, #4A00E0, #8E2DE2);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      font-family: 'Segoe UI', sans-serif;
+      min-height: 100vh;
+    }
+
+    @keyframes gradientBG {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+      padding: 30px;
+      max-width: 650px;
+      margin: auto;
+    }
+
+    h2 {
+      font-weight: 600;
+      color: #2b2e4a;
+    }
+
+    .form-label {
+      font-weight: 600;
+      color: #222;
+    }
+
+    .form-control {
+      border-radius: 10px;
+      padding: 10px 15px;
+      font-size: 1rem;
+    }
+
+    .form-control:focus {
+      border-color: #4e54c8;
+      box-shadow: 0 0 0 0.2rem rgba(78, 84, 200, 0.25);
+    }
+
+    .btn-success {
+      background: linear-gradient(to right, #43cea2, #185a9d);
+      border: none;
+      border-radius: 30px;
+      padding: 10px 25px;
+      font-size: 1rem;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+
+    .btn-success:hover {
+      background: linear-gradient(to right, #11998e, #38ef7d);
+      transform: scale(1.05);
+    }
+
+    .error-text {
+      color: #e63946;
+      font-size: 0.875rem;
+      margin-top: 2px;
+    }
+
+    @media (max-width: 768px) {
+      .card {
+        padding: 20px;
+      }
+    }
+  </style>
 </head>
 <body>
+
 {% include "Header.html" %}
+
 <form action="/ORS/Position/" method="POST">
-    {% csrf_token %}
-    <div align="center">
-        <h1>Add Position</h1>
-        <h3><font color="green">{{ form.message }}</font></h3>
-        <table>
-            <input type="hidden" name="id" value="{{form.id}}">
-            <tr>
-                <th>designation:</th>
-                <td><input type="text" name="designation" value="{{form.designation}}"></td>
-                <td style="position: fixed; color: red;"> {{ form.inputError.designation }}</td>
-            </tr>
-            <tr>
+  {% csrf_token %}
+  <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+    <div class="card">
 
+      <h2 class="text-center mb-4">Add New Position</h2>
 
-                <th>openingDate:</th>
-                <td><input type="date" name="openingDate" value="{{form.openingDate}}"></td>
-                <td style="position: fixed; color: red;"> {{ form.inputError.openingDate }}</td>
-            </tr>
-            <tr>
-                <th>requiredExperience:</th>
-                <td><input type="text" name="requiredExperience" value="{{form.requiredExperience}}"></td>
-                <td style="position: fixed; color: red;"> {{ form.inputError.requiredExperience }}</td>
-            </tr>
-            <tr>
-                <th>condition:</th>
-                <td>
-                    {{ form.preload.condition|safe }}
-                </td>
-                <td style="position: fixed; color: red;"> {{ form.inputError.condition }}</td>
-            </tr>
-            <tr>
-                <th></th>
-                <td><input type="submit" value="save"></td>
-            </tr>
-        </table>
+      {% if form.message %}
+        <h6 class="text-success text-center">{{ form.message }}</h6>
+      {% endif %}
+
+      <input type="hidden" name="id" value="{{ form.id }}">
+
+      <!-- Designation -->
+      <div class="mb-3">
+        <label for="designation" class="form-label">Designation</label>
+        <input type="text" class="form-control" id="designation" name="designation" value="{{ form.designation }}">
+        {% if form.inputError.designation %}
+          <div class="error-text">{{ form.inputError.designation }}</div>
+        {% endif %}
+      </div>
+
+      <!-- Opening Date -->
+      <div class="mb-3">
+        <label for="openingDate" class="form-label">Opening Date</label>
+        <input type="date" class="form-control" id="openingDate" name="openingDate" value="{{ form.openingDate }}">
+        {% if form.inputError.openingDate %}
+          <div class="error-text">{{ form.inputError.openingDate }}</div>
+        {% endif %}
+      </div>
+
+      <!-- Required Experience -->
+      <div class="mb-3">
+        <label for="requiredExperience" class="form-label">Required Experience</label>
+        <input type="text" class="form-control" id="requiredExperience" name="requiredExperience" value="{{ form.requiredExperience }}">
+        {% if form.inputError.requiredExperience %}
+          <div class="error-text">{{ form.inputError.requiredExperience }}</div>
+        {% endif %}
+      </div>
+
+      <!-- Condition -->
+      <div class="mb-3">
+        <label class="form-label">Condition</label>
+        {{ form.preload.condition|safe }}
+        {% if form.inputError.condition %}
+          <div class="error-text">{{ form.inputError.condition }}</div>
+        {% endif %}
+      </div>
+
+      <div class="text-center">
+        <input type="submit" value="Save Position" class="btn btn-success">
+      </div>
+
     </div>
+  </div>
 </form>
+
+{% include "Footer.html" %}
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
