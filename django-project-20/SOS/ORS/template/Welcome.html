@@ -4,91 +4,163 @@
   <meta charset="UTF-8">
   <title>Online Result System</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Bootstrap CSS -->
+
+  <!-- Bootstrap 5 CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Custom Style -->
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+
   <style>
     body {
-      background: linear-gradient(to right, #f8f9fa, #e9ecef);
-      font-family: 'Segoe UI', sans-serif;
+      background-color: #ffffff;
+      font-family: 'Roboto', sans-serif;
     }
-    .hero {
-      background: url('https://images.unsplash.com/photo-1596495577886-d920f1fb7238?fit=crop&w=1500&q=80') no-repeat center center/cover;
-      min-height: 60vh;
-      color: white;
+
+    .navbar-brand {
+      font-weight: 600;
+      font-size: 1.4rem;
+      color: #1a73e8 !important;
+    }
+
+    .nav-link {
+      color: #333 !important;
+      font-weight: 500;
+    }
+
+    .nav-link:hover {
+      color: #1a73e8 !important;
+    }
+
+    .login-btn {
+      border: none;
+      padding: 6px 15px;
+      font-size: 14px;
+      border-radius: 4px;
+      background-color: #1a73e8;
+      color: white !important;
+      text-decoration: none;
+    }
+
+    .login-btn:hover {
+      background-color: #155ab6;
+    }
+
+    .main-container {
+      min-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .main-container h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      color: #1a73e8;
+    }
+
+    .main-container p {
+      font-size: 1.4rem;
+      color: #dc3545;
+      margin-top: 5px;
+    }
+
+    .tagline {
+      font-size: 1rem;
+      color: #6c757d;
+      margin-bottom: 30px;
+    }
+
+    .search-box {
+      width: 100%;
+      max-width: 580px;
+      border: 1px solid #dfe1e5;
+      border-radius: 24px;
+      padding: 10px 20px;
       display: flex;
       align-items: center;
-      justify-content: center;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+      box-shadow: 0 1px 6px rgba(32,33,36,0.28);
+      margin-top: 20px;
     }
-    .hero h1 {
-      font-size: 4rem;
-      font-weight: 700;
+
+    .search-box input {
+      border: none;
+      outline: none;
+      width: 100%;
+      font-size: 16px;
+      background: transparent;
     }
-    .hero p {
-      font-size: 1.5rem;
+
+    .btn-main {
+      margin-top: 30px;
+      background-color: #007bff;
+      color: white;
+      padding: 10px 25px;
+      border-radius: 8px;
+      border: none;
+      text-decoration: none;
+      font-size: 1rem;
     }
-    .project-card {
-      margin-top: -50px;
-      background: white;
-      border-radius: 15px;
-      padding: 40px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+
+    .btn-main:hover {
+      background-color: #0056b3;
+    }
+
+    footer {
+      margin-top: 50px;
+      font-size: 14px;
+      color: #777;
+      text-align: center;
     }
   </style>
 </head>
 <body>
 
-  <!-- Header Include -->
-  {% include "Header.html" %}
-
-  <!-- Hero Section -->
-  <div class="hero text-center">
-    <div>
-      <h1>Online Result System</h1>
-      <p>Fast, Secure, and Transparent</p>
-    </div>
-  </div>
-
-  <!-- Project Info Card -->
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
   <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-md-8 project-card text-center">
-        <h2 class="text-danger mb-3">Project-20</h2>
-        <br>
-        <p class="text-muted fs-2">This project is designed to provide students and institutions with a seamless way to manage and view academic results online. Built with Django & Bootstrap for a modern experience.</p>
-      </div>
+    <a class="navbar-brand" href="#">ORS</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link" href="/ORS/User/">Add User</a></li>
+        <li class="nav-item"><a class="nav-link" href="/ORS/UserList/">User List</a></li>
+        <li class="nav-item"><a class="nav-link" href="/ORS/Position/">Position</a></li>
+        <li class="nav-item"><a class="nav-link" href="/ORS/PositionList/">Position List</a></li>
+        <li class="nav-item"><a class="nav-link" href="/ORS/Customer/">Customer</a></li>
+        <li class="nav-item"><a class="nav-link" href="/ORS/CustomerList/">Customer List</a></li>
+      </ul>
+      <a href="/ORS/Login/" class="login-btn">Login</a>
     </div>
   </div>
+</nav>
 
-  <!-- Bootstrap Bundle JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Main Section -->
+<div class="main-container">
+  <h1>Online Result System</h1>
+  <p>Project-20</p>
+  <div class="tagline">Built with Django & Bootstrap 5</div>
+
+  <div class="search-box">
+    <input type="text" placeholder="Search by Roll No or Name...">
+  </div>
+
+  <a href="/ORS/Login/" class="btn btn-main">Check Result</a>
+</div>
+
+<!-- Footer -->
+<footer>
+  &copy; 2025 | Designed by Vishal
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
-
-
-
-
-
-
-<!--<!DOCTYPE html>-->
-<!--<html lang="en">-->
-<!--<head>-->
-<!--    <meta charset="UTF-8">-->
-<!--    <title>Title</title>-->
-<!--</head>-->
-<!--<body>-->
-<!--{% include "Header.html" %}-->
-<!--<br>-->
-<!--<br>-->
-<!--<br>-->
-<!--<br>-->
-<!--<div align="center">-->
-<!--   <h1 align="center">-->
-<!--       <font size="7px" color="navy">Online Result System</font>-->
-<!--       <br><br>-->
-<!--       <font color="red">Project-20</font>-->
-<!--   </h1>-->
-<!--</div>-->
-<!--</body>-->
-<!--</html>-->

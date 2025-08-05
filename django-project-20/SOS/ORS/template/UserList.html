@@ -5,139 +5,171 @@
   <title>User List</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!-- Bootstrap CSS -->
+  <!-- Bootstrap 5 CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 
   <style>
     body {
-      background: linear-gradient(rgba(0, 0, 50, 0.6), rgba(0, 0, 100, 0.6)), url('/static/images/bg1.png');
-      background-size: cover;
-      background-repeat: no-repeat;
-      background-position: center;
-      min-height: 100vh;
-      font-family: 'Segoe UI', sans-serif;
+      background: #f1f3f4;
+      font-family: 'Roboto', sans-serif;
     }
 
-    .card {
-      background-color: rgba(255, 255, 255, 0.98);
+    .container-box {
+      max-width: 1200px;
+      margin: auto;
+      margin-top: 50px;
+      background: #fff;
+      border-radius: 16px;
       padding: 30px;
-      border-radius: 25px;
-      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.3);
-      width: 100%;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      font-weight: 600;
+      text-align: center;
+      color: #1a73e8;
     }
 
     .form-control::placeholder {
       font-style: italic;
-      color: #888;
+      color: #aaa;
     }
 
     .table thead {
-      background-color: #343a40;
+      background-color: #1a73e8;
       color: white;
     }
 
     .table tbody tr:hover {
-      background-color: #f1f1f1;
+      background-color: #f8f9fa;
     }
 
-    .btn-primary, .btn-success, .btn-danger, .btn-secondary {
-      border-radius: 20px;
+    .btn {
+      border-radius: 30px;
     }
 
-    .table td, .table th {
+    .btn-sm {
+      font-size: 0.75rem;
+      padding: 5px 14px;
+    }
+
+    .form-inline {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 20px 0;
+    }
+
+    .text-danger {
       text-align: center;
-      vertical-align: middle;
+      font-size: 0.95rem;
     }
 
     @media (max-width: 768px) {
-      .card {
-        padding: 20px 15px;
+      .table-responsive {
+        font-size: 0.85rem;
       }
 
-      .table-responsive {
-        font-size: 0.9rem;
+      .form-inline {
+        flex-direction: column;
       }
     }
   </style>
 </head>
 <body>
 
-  {% include "Header.html" %}
+{% include "Header.html" %}
 
-  <form method="POST">
-    {% csrf_token %}
-    <div class="container d-flex justify-content-center align-items-center py-5" style="min-height: 90vh;">
-      <div class="card">
-        <h2 class="text-center text-primary fw-bold mb-3">User List</h2>
-        <h6 class="text-center text-danger mb-4">{{ form.message }}</h6>
+<form method="POST">
+  {% csrf_token %}
+  <div class="container container-box">
+    <h2><i class="bi bi-people-fill"></i> User List</h2>
+    <h6 class="text-danger">{{ form.message }}</h6>
 
-        <!-- Search -->
-        <div class="row mb-4 justify-content-center">
-          <div class="col-md-5 col-sm-12 mb-2">
-            <input type="text" name="firstName" class="form-control" placeholder="Enter first name here">
-          </div>
-          <div class="col-md-2 col-sm-12">
-            <input type="submit" name="operation" value="search" class="btn btn-primary w-100">
-          </div>
-        </div>
-
-        <!-- Table -->
-        <div class="table-responsive">
-          <table class="table table-bordered table-hover">
-            <thead>
-              <tr>
-                <th><input type="checkbox" id="selectall"></th>
-                <th>S. No.</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Login</th>
-                <th>DOB</th>
-                <th>Role</th>
-                <th>Address</th>
-                <th>Gender</th>
-                <th>Mobile</th>
-                <th>Edit</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for l in pageList %}
-              <tr>
-                <td><input type="checkbox" class="case" name="ids" value="{{ l.id }}"></td>
-                <td>{{ l.id }}</td>
-                <td>{{ l.firstName }}</td>
-                <td>{{ l.lastName }}</td>
-                <td>{{ l.loginId }}</td>
-                <td>{{ l.dob }}</td>
-                <td>{{ l.roleName }}</td>
-                <td>{{ l.address }}</td>
-                <td>{{ l.gender }}</td>
-                <td>{{ l.mobileNumber }}</td>
-                <td><a href="/ORS/User/Edit/{{ l.id }}" class="btn btn-sm btn-outline-primary">Edit</a></td>
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        </div>
-
-        <!-- Buttons -->
-        <div class="d-flex justify-content-between mt-3 flex-wrap">
-          <button type="submit" name="operation" value="previous" class="btn btn-secondary mb-2" {% if form.pageNo == 1 %} disabled {% endif %}>Previous</button>
-          <button type="submit" name="operation" value="new" class="btn btn-success mb-2">New</button>
-          <button type="submit" name="operation" value="delete" class="btn btn-danger mb-2">Delete</button>
-          <button type="submit" name="operation" value="next" class="btn btn-secondary mb-2" {% if pageList|length < 5 %} disabled {% endif %}>Next</button>
-        </div>
-      </div>
+    <!-- Search Section -->
+    <div class="form-inline">
+      <input type="text" name="firstName" class="form-control" placeholder="Enter first name..." style="max-width: 300px;">
+      <button type="submit" name="operation" value="search" class="btn btn-primary">
+        <i class="bi bi-search"></i> Search
+      </button>
     </div>
-  </form>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-  <script>
-    document.getElementById('selectall').onclick = function () {
-      var checkboxes = document.querySelectorAll('.case');
-      for (var checkbox of checkboxes) {
-        checkbox.checked = this.checked;
-      }
-    }
-  </script>
+    <!-- Table Section -->
+    <div class="table-responsive mt-4">
+      <table class="table table-bordered align-middle text-center">
+        <thead>
+          <tr>
+            <th><input type="checkbox" id="selectall"></th>
+            <th>#</th>
+            <th>First</th>
+            <th>Last</th>
+            <th>Email</th>
+            <th>DOB</th>
+            <th>Role</th>
+            <th>Address</th>
+            <th>Gender</th>
+            <th>Mobile</th>
+            <th>Edit</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for l in pageList %}
+          <tr>
+            <td><input type="checkbox" class="case" name="ids" value="{{ l.id }}"></td>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ l.firstName }}</td>
+            <td>{{ l.lastName }}</td>
+            <td>{{ l.loginId }}</td>
+            <td>{{ l.dob }}</td>
+            <td>{{ l.roleName }}</td>
+            <td>{{ l.address }}</td>
+            <td>{{ l.gender }}</td>
+            <td>{{ l.mobileNumber }}</td>
+            <td>
+              <a href="/ORS/User/Edit/{{ l.id }}" class="btn btn-outline-primary btn-sm">
+                <i class="bi bi-pencil"></i>
+              </a>
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="11">No records found.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Button Section -->
+    <div class="d-flex justify-content-between flex-wrap mt-4">
+      <button type="submit" name="operation" value="previous" class="btn btn-secondary" {% if form.pageNo == 1 %} disabled {% endif %}>
+        <i class="bi bi-chevron-left"></i> Previous
+      </button>
+
+      <button type="submit" name="operation" value="new" class="btn btn-success">
+        <i class="bi bi-plus-circle"></i> New
+      </button>
+
+      <button type="submit" name="operation" value="delete" class="btn btn-danger">
+        <i class="bi bi-trash"></i> Delete
+      </button>
+
+      <button type="submit" name="operation" value="next" class="btn btn-secondary" {% if pageList|length < 5 %} disabled {% endif %}>
+        Next <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </div>
+</form>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  document.getElementById('selectall').onclick = function () {
+    document.querySelectorAll('.case').forEach(c => c.checked = this.checked);
+  }
+</script>
 </body>
 </html>

@@ -2,99 +2,138 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Add Customer</title>
-    <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+  <meta charset="UTF-8">
+  <title>Add Customer</title>
+  <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap + Fonts -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f1f3f4;
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
 
-    <!-- Custom CSS -->
-    <style>
-        body {
-            margin: 0;
-            font-family: 'Roboto', sans-serif;
-            background: linear-gradient(120deg, #2980b9, #6dd5fa, #ffffff);
-            background-size: cover;
-            min-height: 100vh;
-        }
+    .form-container {
+      max-width: 640px;
+      background-color: white;
+      margin: 70px auto;
+      padding: 40px 30px;
+      border-radius: 20px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+    }
 
-        .form-container {
-            max-width: 600px;
-            margin: 100px auto;
-            background-color: rgba(255, 255, 255, 0.97);
-            padding: 30px;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-        }
+    h1 {
+      font-weight: 600;
+      color: #202124;
+      font-size: 28px;
+      text-align: center;
+      margin-bottom: 30px;
+    }
 
-        h1 {
-            font-weight: bold;
-            margin-bottom: 20px;
-            color: #0077b6;
-        }
+    label.form-label {
+      font-weight: 500;
+      color: #333;
+    }
 
-        .error {
-            color: red;
-            font-size: 14px;
-        }
+    .form-control {
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 15px;
+    }
 
-        .form-label {
-            font-weight: 500;
-        }
-    </style>
+    .form-control:focus {
+      border-color: #1a73e8;
+      box-shadow: 0 0 0 0.15rem rgba(26, 115, 232, 0.25);
+    }
+
+    .btn-primary {
+      background-color: #1a73e8;
+      border: none;
+      padding: 10px 25px;
+      border-radius: 10px;
+      font-weight: 600;
+      transition: 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      background-color: #1558b0;
+    }
+
+    .error {
+      font-size: 0.85rem;
+      color: red;
+      margin-top: 4px;
+    }
+
+    .alert-success {
+      border-radius: 10px;
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 576px) {
+      .form-container {
+        margin: 40px 15px;
+        padding: 30px 20px;
+      }
+    }
+  </style>
 </head>
 <body>
 
 <!-- Header -->
 {% include "Header.html" %}
 
-<!-- Form Content -->
+<!-- Customer Form -->
 <div class="form-container">
-    <form action="/ORS/Customer/" method="POST">
-        {% csrf_token %}
-        <h1 class="text-center">Add Customer</h1>
+  <form action="/ORS/Customer/" method="POST">
+    {% csrf_token %}
+    <h1><i class="bi bi-person-badge"></i> Add Customer</h1>
 
-        {% if form.message %}
-        <div class="alert alert-success text-center">{{ form.message }}</div>
-        {% endif %}
+    {% if form.message %}
+      <div class="alert alert-success text-center">{{ form.message }}</div>
+    {% endif %}
 
-        <input type="hidden" name="id" value="{{ form.id }}">
+    <input type="hidden" name="id" value="{{ form.id }}">
 
-        <div class="mb-3">
-            <label class="form-label">Client Name:</label>
-            <input type="text" name="clientName" class="form-control" value="{{ form.clientName }}">
-            <div class="error">{{ form.inputError.clientName }}</div>
-        </div>
+    <div class="mb-3">
+      <label class="form-label">Client Name</label>
+      <input type="text" name="clientName" class="form-control" value="{{ form.clientName }}">
+      <div class="error">{{ form.inputError.clientName }}</div>
+    </div>
 
-        <div class="mb-3">
-            <label class="form-label">Location:</label>
-            <input type="text" name="location" class="form-control" value="{{ form.location }}">
-            <div class="error">{{ form.inputError.location }}</div>
-        </div>
+    <div class="mb-3">
+      <label class="form-label">Location</label>
+      <input type="text" name="location" class="form-control" value="{{ form.location }}">
+      <div class="error">{{ form.inputError.location }}</div>
+    </div>
 
-        <div class="mb-3">
-            <label class="form-label">Contact Number:</label>
-            <input type="text" name="contactNumber" class="form-control" value="{{ form.contactNumber }}">
-            <div class="error">{{ form.inputError.contactNumber }}</div>
-        </div>
+    <div class="mb-3">
+      <label class="form-label">Contact Number</label>
+      <input type="text" name="contactNumber" class="form-control" value="{{ form.contactNumber }}">
+      <div class="error">{{ form.inputError.contactNumber }}</div>
+    </div>
 
-        <div class="mb-3">
-            <label class="form-label">Importance:</label>
-            {{ form.preload.importance|safe }}
-            <div class="error">{{ form.inputError.importance }}</div>
-        </div>
+    <div class="mb-3">
+      <label class="form-label">Importance</label>
+      {{ form.preload.importance|safe }}
+      <div class="error">{{ form.inputError.importance }}</div>
+    </div>
 
-        <div class="text-center">
-            <button type="submit" class="btn btn-primary px-4">Save</button>
-        </div>
-    </form>
+    <div class="text-center mt-4">
+      <button type="submit" class="btn btn-primary">
+        <i class="bi bi-save2"></i> Save
+      </button>
+    </div>
+  </form>
 </div>
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

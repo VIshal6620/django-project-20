@@ -1,65 +1,162 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    {% load static %}
-    <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
+  <meta charset="UTF-8">
+  <title>Customer List</title>
+  <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+
+  <!-- Bootstrap + Font Awesome -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      background: #f1f3f4;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container-box {
+      max-width: 1000px;
+      margin: 60px auto;
+      background-color: white;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      font-weight: 600;
+      color: #202124;
+      margin-bottom: 20px;
+    }
+
+    .form-control {
+      border-radius: 10px;
+    }
+
+    .btn {
+      border-radius: 8px;
+    }
+
+    .table th, .table td {
+      vertical-align: middle;
+      text-align: center;
+    }
+
+    .table thead {
+      background-color: #007bff;
+      color: white;
+    }
+
+    .table tbody tr:hover {
+      background-color: #f2f2f2;
+    }
+
+    .pagination-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+
+    .message {
+      font-weight: 500;
+      font-size: 1rem;
+    }
+  </style>
 </head>
 <body>
+
 {% include "Header.html" %}
+
 <form method="POST">
-    {% csrf_token %}
-    <div align="center">
-        <h1>CustomerList:</h1>
-        <h3><font color="red">{{ form.message }}</font></h3>
+  {% csrf_token %}
+  <div class="container container-box">
+
+    <h2 class="text-center"><i class="fas fa-users"></i> Customer List</h2>
+    {% if form.message %}
+      <p class="text-danger text-center message">{{ form.message }}</p>
+    {% endif %}
+
+    <!-- Search -->
+    <div class="row mb-4 justify-content-center">
+      <div class="col-md-5 col-sm-12">
+        <input type="text" name="clientName" class="form-control" placeholder="Search Client Name...">
+      </div>
+      <div class="col-md-2 col-sm-12 mt-2 mt-md-0">
+        <button type="submit" name="operation" value="search" class="btn btn-primary w-100">
+          <i class="fas fa-search"></i> Search
+        </button>
+      </div>
     </div>
-    <div align="center">
-        <table>
-            <tr>
-                <th>ClientName</th>
-                <td><input type="text" name="clientName" placeholder="clientName name is here"></td>
-                <td><input type="submit" name="operation" value="search"></td>
-            </tr>
-        </table>
-    </div>
-    <br>
-    <table border="2%" width="100%">
-        <tr>
+
+    <!-- Table -->
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover">
+        <thead>
+          <tr>
             <th><input type="checkbox" id="selectall"></th>
             <th>S.No</th>
-            <th>clientName</th>
-            <th>location</th>
-            <th>contactNumber</th>
-            <th>importance</th>
+            <th>Client Name</th>
+            <th>Location</th>
+            <th>Contact No</th>
+            <th>Importance</th>
             <th>Edit</th>
-        </tr>
-        {% for l in pageList %}
-        <tr>
-            <td align="center"><input type="checkbox" class="case" name="ids" value="{{ l.id }}"></td>
-            <td align="center">{{ l.id }}</td>
-            <td align="center">{{ l.clientName }}</td>
-            <td align="center">{{ l.location }}</td>
-            <td align="center">{{ l.contactNumber }}</td>
-            <td align="center">{{ l.importance }}</td>
-            <td align="center"><a href="/ORS/Customer/Edit/{{ l.id }}">edit</a></td>
-        </tr>
-        {% endfor %}
-    </table>
-    <br>
-    <table style="width: 100%">
-        <tr>
-            <td style="width: 10%">
-                <input type="submit" name="operation" value="previous" {% if form.pageNo == 1 %} disabled {% endif %}>
+          </tr>
+        </thead>
+        <tbody>
+          {% for l in pageList %}
+          <tr>
+            <td><input type="checkbox" class="case" name="ids" value="{{ l.id }}"></td>
+            <td>{{ l.id }}</td>
+            <td>{{ l.clientName }}</td>
+            <td>{{ l.location }}</td>
+            <td>{{ l.contactNumber }}</td>
+            <td>{{ l.importance }}</td>
+            <td>
+              <a href="/ORS/Customer/Edit/{{ l.id }}" class="btn btn-sm btn-warning">
+                <i class="fas fa-edit"></i> Edit
+              </a>
             </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="7" class="text-muted text-center">No records found.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
 
-            <td style="width: 25%"><input type="submit" name="operation" value="delete"></td>
+    <!-- Pagination -->
+    <div class="pagination-buttons">
+      <button type="submit" name="operation" value="previous" class="btn btn-secondary"
+              {% if form.pageNo == 1 %} disabled {% endif %}>
+        <i class="fas fa-arrow-left"></i> Previous
+      </button>
 
-            <td style="text-align: right;">
-                <input type="submit" name="operation" value="next" {% if pageList|length < 5 %} disabled {% endif %}>
-            </td>
-        </tr>
-    </table>
+      <button type="submit" name="operation" value="delete" class="btn btn-danger">
+        <i class="fas fa-trash"></i> Delete
+      </button>
+
+      <button type="submit" name="operation" value="next" class="btn btn-secondary"
+              {% if pageList|length < 5 %} disabled {% endif %}>
+        Next <i class="fas fa-arrow-right"></i>
+      </button>
+    </div>
+  </div>
 </form>
+
+<!-- Bootstrap + Script -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  document.getElementById("selectall").onclick = function () {
+    var checkboxes = document.querySelectorAll(".case");
+    checkboxes.forEach((cb) => cb.checked = this.checked);
+  };
+</script>
+
 </body>
 </html>

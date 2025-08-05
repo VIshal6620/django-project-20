@@ -5,168 +5,187 @@
   <title>Position List</title>
   {% load static %}
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
+  <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
 
-  <!-- Bootstrap & Icons -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap 5 + Google Fonts + FontAwesome -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 
   <style>
     body {
-      background: linear-gradient(rgba(0, 0, 50, 0.6), rgba(0, 0, 100, 0.6)), url('/static/images/bg2.png');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      font-family: 'Segoe UI', sans-serif;
-      min-height: 100vh;
+      background: #f1f3f4;
+      font-family: 'Inter', sans-serif;
     }
 
     .container {
-      background-color: rgba(255, 255, 255, 0.95);
-      border-radius: 20px;
-      padding: 30px;
-      margin-top: 40px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      max-width: 1100px;
+      margin: 60px auto;
+      background: white;
+      padding: 40px;
+      border-radius: 18px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
     }
 
-    .table th, .table td {
-      vertical-align: middle;
+    h2 {
+      font-weight: 600;
+      color: #202124;
     }
 
     .table thead {
-      background-color: #007bff;
-      color: white;
+      background-color: #e8f0fe;
+      color: #202124;
     }
 
     .table-hover tbody tr:hover {
-      background-color: #e9f5ff;
+      background-color: #f8f9fa;
     }
 
-    .form-control, .btn {
+    .form-control {
       border-radius: 10px;
+      padding: 10px 14px;
+    }
+
+    .btn {
+      border-radius: 10px;
+      font-weight: 500;
     }
 
     .btn i {
-      margin-right: 5px;
+      margin-right: 6px;
+    }
+
+    .search-bar input {
+      max-width: 300px;
+      margin-right: 10px;
     }
 
     .pagination-buttons {
       display: flex;
       justify-content: space-between;
-      margin-top: 20px;
+      margin-top: 25px;
+      flex-wrap: wrap;
+      gap: 10px;
     }
 
-    .search-row {
-      margin-bottom: 20px;
+    .no-data {
+      color: #777;
+      font-style: italic;
+      text-align: center;
     }
 
     .select-all {
       cursor: pointer;
     }
+
+    @media (max-width: 768px) {
+      .search-bar {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .search-bar input {
+        width: 100%;
+      }
+
+      .pagination-buttons {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
   </style>
 </head>
 <body>
 
-{% include "Header.html" %}
+  {% include "Header.html" %}
 
-<form method="POST">
-  {% csrf_token %}
+  <form method="POST">
+    {% csrf_token %}
 
-  <div class="container">
-    <h2 class="text-center text-primary mb-3">🧾 Position List</h2>
-    {% if form.message %}
-      <h6 class="text-center text-danger">{{ form.message }}</h6>
-    {% endif %}
-
-    <!-- Search Bar -->
-    <div class="row justify-content-center search-row">
-      <div class="col-md-4">
-        <input type="text" name="designation" class="form-control" placeholder="Search Designation...">
+    <div class="container">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="fas fa-clipboard-list text-primary"></i> Position List</h2>
+        {% if form.message %}
+          <span class="text-danger fw-semibold">{{ form.message }}</span>
+        {% endif %}
       </div>
-      <div class="col-md-2">
-        <button type="submit" name="operation" value="search" class="btn btn-primary w-100">
+
+      <!-- Search -->
+      <div class="d-flex search-bar align-items-center mb-4">
+        <input type="text" name="designation" class="form-control" placeholder="Search designation...">
+        <button type="submit" name="operation" value="search" class="btn btn-outline-primary">
           <i class="fas fa-search"></i> Search
         </button>
       </div>
-    </div>
 
-    <!-- Position Table -->
-    <div class="table-responsive">
-      <table class="table table-bordered table-hover text-center align-middle">
-        <thead>
-          <tr>
-            <th><input type="checkbox" id="selectall" class="select-all"></th>
-            <th>S.No</th>
-            <th>Designation</th>
-            <th>Opening Date</th>
-            <th>Required Experience</th>
-            <th>Condition</th>
-            <th>Edit</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for l in pageList %}
-          <tr>
-            <td><input type="checkbox" class="case" name="ids" value="{{ l.id }}"></td>
-            <td>{{ l.id }}</td>
-            <td>{{ l.designation }}</td>
-            <td>{{ l.openingDate }}</td>
-            <td>{{ l.requiredExperience }}</td>
-            <td>{{ l.condition }}</td>
-            <td>
-              <a href="/ORS/Position/Edit/{{ l.id }}" class="btn btn-sm btn-warning">
-                <i class="fas fa-edit"></i> Edit
-              </a>
-            </td>
-          </tr>
-          {% empty %}
-          <tr>
-            <td colspan="7" class="text-muted">No records found.</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
+      <!-- Table -->
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle text-center">
+          <thead>
+            <tr>
+              <th><input type="checkbox" id="selectall" class="form-check-input select-all"></th>
+              <th>S.No</th>
+              <th>Designation</th>
+              <th>Opening Date</th>
+              <th>Experience</th>
+              <th>Condition</th>
+              <th>Edit</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for l in pageList %}
+            <tr>
+              <td><input type="checkbox" class="form-check-input case" name="ids" value="{{ l.id }}"></td>
+              <td>{{ l.id }}</td>
+              <td>{{ l.designation }}</td>
+              <td>{{ l.openingDate }}</td>
+              <td>{{ l.requiredExperience }}</td>
+              <td>{{ l.condition }}</td>
+              <td>
+                <a href="/ORS/Position/Edit/{{ l.id }}" class="btn btn-sm btn-outline-secondary">
+                  <i class="fas fa-edit"></i> Edit
+                </a>
+              </td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="7" class="no-data">No positions found.</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
 
-    <!-- Pagination & Actions -->
-    <div class="pagination-buttons">
-      <div>
-        <button type="submit" name="operation" value="previous" class="btn btn-primary"
+      <!-- Pagination & Buttons -->
+      <div class="pagination-buttons">
+        <button type="submit" name="operation" value="previous" class="btn btn-outline-secondary"
                 {% if form.pageNo == 1 %} disabled {% endif %}>
           <i class="fas fa-arrow-left"></i> Previous
         </button>
-      </div>
 
-      <div>
-        <button type="submit" name="operation" value="delete" class="btn btn-danger">
-          <i class="fas fa-trash"></i> Delete
+        <button type="submit" name="operation" value="delete" class="btn btn-outline-danger">
+          <i class="fas fa-trash-alt"></i> Delete
         </button>
-      </div>
 
-      <div>
-        <button type="submit" name="operation" value="next" class="btn btn-primary"
+        <button type="submit" name="operation" value="next" class="btn btn-outline-secondary"
                 {% if pageList|length < 5 %} disabled {% endif %}>
           Next <i class="fas fa-arrow-right"></i>
         </button>
       </div>
     </div>
+  </form>
 
-  </div>
-</form>
-
-<!-- Bootstrap JS & FontAwesome -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-  // Select All functionality
-  document.addEventListener("DOMContentLoaded", function () {
-    const selectAll = document.getElementById("selectall");
-    const checkboxes = document.querySelectorAll(".case");
-
-    selectAll.addEventListener("click", function () {
-      checkboxes.forEach(cb => cb.checked = selectAll.checked);
+  <!-- JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const selectAll = document.getElementById("selectall");
+      const checkboxes = document.querySelectorAll(".case");
+      selectAll.addEventListener("click", () => {
+        checkboxes.forEach(cb => cb.checked = selectAll.checked);
+      });
     });
-  });
-</script>
+  </script>
 
 </body>
 </html>
