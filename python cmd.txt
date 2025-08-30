@@ -1,0 +1,7 @@
+pip install django
+pip install mysqlcient
+django -admin startproject sos
+cd sos
+py manage.py startapp ors
+py manage.py makemigrations
+py manage.py migrate
