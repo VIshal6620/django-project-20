@@ -9,8 +9,6 @@ class FrontCtlMiddleware:
 
     def __call__(self, request):
 
-        print(f"---------->>>>[DEBUG] FrontCtlMiddleware called for path: {request.path}")  # <-- Debug log
-
         if request.path_info in ['/', '/ORS/Login/', '/ORS/Registration/', '/ORS/Welcome/', '/ORS/Logout/',
                                  '/ORS/ForgetPassword/']:
             return self.get_response(request)
