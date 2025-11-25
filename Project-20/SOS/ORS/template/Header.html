@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    {% load static %}
+     {% load static %}
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
     <!-- Include jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <!-- Include jQuery UI -->
@@ -12,8 +13,8 @@
     <link rel="stylesheet"
           href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 
-    <script src="{% static 'js/checkbox.js' %}"></script>
-    <script src="{% static 'js/datepicker.js' %}"></script>
+        <script src="{% static 'js/checkbox.js' %}"></script>
+        <script src="{% static 'js/datepicker.js' %}"></script>
 </head>
 <body>
 {% if request.session.role == None %}
