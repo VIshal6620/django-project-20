@@ -22,9 +22,13 @@ class UserCtl(BaseCtl):
         self.form["gender"] = requestForm["gender"]
         self.form["mobileNumber"] = requestForm["mobileNumber"]
         self.form["roleId"] = requestForm["roleId"]
-        if self.form['roleId'] != '':
-            role = RoleService().get(self.form['roleId'])
-            self.form["roleName"] = role.name
+        role_id = self.form["roleId"]
+        if role_id:
+            role = RoleService().get(role_id)
+            self.form["roleName"] = role.name if role else ""
+        else:
+            self.form["roleName"] = ""
+
 
     def form_to_model(self, obj):
         role = RoleService().get(self.form['roleId'])
@@ -41,7 +45,7 @@ class UserCtl(BaseCtl):
         obj.gender = self.form["gender"]
         obj.mobileNumber = self.form["mobileNumber"]
         obj.roleId = self.form["roleId"]
-        obj.roleName = role.name
+        obj.roleName = role.name if role else ""
         return obj
 
     def model_to_form(self, obj):

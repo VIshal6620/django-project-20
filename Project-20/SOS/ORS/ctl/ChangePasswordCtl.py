@@ -57,7 +57,7 @@ class ChangePasswordCtl(BaseCtl):
 
     def submit(self, request, params={}):
         user_json = request.session.get('user', None)
-        q = User.objects.filter(loginId=user_json.get('loginId'), password=self.form['oldPassword'])
+        q = User.objects.filter( password=self.form['oldPassword'])
         user = q[0]
         if q.count() > 0:
             if self.form['newPassword'] == self.form['confirmPassword']:
