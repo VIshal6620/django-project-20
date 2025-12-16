@@ -7,96 +7,99 @@
     <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
 </head>
 <body>
-    {% include "Header.html" %}
+{% include "Header.html" %}
 
-    <form method="POST">
-        {% csrf_token %}
+<form method="POST">
+    {% csrf_token %}
 
-        <div align="center">
-            <h1>User List</h1>
-             {% if form.error %}
-                <h3><font color="red"> {{ form.message }} </font></h3>
-             {% else %}
-                <h3><font color="green"> {{ form.message }} </font></h3>
-             {% endif %}
-        </div>
+    <div align="center">
+        <h1>User List</h1>
+        {% if form.error %}
+        <h3><font color="red"> {{ form.message }} </font></h3>
+        {% else %}
+        <h3><font color="green"> {{ form.message }} </font></h3>
+        {% endif %}
+    </div>
 
-        <div align="center">
-            <table>
-                <tr>
-                    <th>First Name:</th>
-                    <td>
-                        <input type="text" name="firstName" placeholder="Enter first name here" value="{{ form.firstName }}">
-                    </td>
-                    <td>
-                        <input type="submit" name="operation" value="search">
-                    </td>
-                </tr>
-            </table>
-        </div>
-
-        <br>
-
-        <table border="1" width="100%">
+    <div align="center">
+        <table>
             <tr>
-                <th><input type="checkbox" id="selectall"></th>
-                <th>S. No.</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Login</th>
-                <th>DOB</th>
-                <th>Role</th>
-                <th>Address</th>
-                <th>Gender</th>
-                <th>Mobile</th>
-                <th>Edit</th>
-            </tr>
-            {% for l in pageList %}
-            <tr>
-                <td align="center"><input type="checkbox" class="case" name="ids" value="{{ l.id }}"></td>
-                <td align="center">{{ form.index|add:forloop.counter }}</td>
-                <td align="center">{{ l.firstName }}</td>
-                <td align="center">{{ l.lastName }}</td>
-                <td align="center">{{ l.loginId }}</td>
-                <td align="center">{{ l.dob }}</td>
-                <td align="center">{{ l.roleName }}</td>
-                <td align="center">{{ l.address }}</td>
-                <td align="center">{{ l.gender }}</td>
-                <td align="center">{{ l.mobileNumber }}</td>
-                <td align="center"><a href="/ORS/User/Edit/{{ l.id }}">edit</a></td>
-            </tr>
-            {% endfor %}
-        </table>
-
-        <br>
-
-        <table style="width: 100%">
-            <tr>
-                <td style="width: 30%">
-                    {% if form.pageNo == 1 %}
-                        <input type="submit" name="operation" value="previous" disabled>
-                    {% else %}
-                        <input type="submit" name="operation" value="previous">
-                    {% endif %}
+                <th>First Name:</th>
+                <td>
+                    <input type="text" name="firstName" placeholder="Enter first name here"
+                           value="{{ form.firstName }}">
                 </td>
-
-                <td style="width: 30%">
-                    <input type="submit" name="operation" value="new">
-                </td>
-
-                <td style="width: 25%">
-                    <input type="submit" name="operation" value="delete">
-                </td>
-
-                <td style="text-align: right;">
-                    {% if pageList|length < 5 or form.lastId == form.maxId %}
-                        <input type="submit" name="operation" value="next" disabled>
-                    {% else %}
-                        <input type="submit" name="operation" value="next">
-                    {% endif %}
+                <td>
+                    <input type="submit" name="operation" value="search">
                 </td>
             </tr>
         </table>
-    </form>
+    </div>
+
+    <br>
+
+    <table border="1" width="100%">
+        <tr>
+            <th><input type="checkbox" id="selectall"></th>
+            <th>S. No.</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Login</th>
+            <th>DOB</th>
+            <th>Role</th>
+            <th>Address</th>
+            <th>Gender</th>
+            <th>Mobile</th>
+            <th>Edit</th>
+        </tr>
+        {% for l in pageList %}
+        <tr>
+            <td align="center"><input type="checkbox" class="case" name="ids" value="{{ l.id }}"></td>
+            <td align="center">{{ form.index|add:forloop.counter }}</td>
+            <td align="center">{{ l.firstName }}</td>
+            <td align="center">{{ l.lastName }}</td>
+            <td align="center">{{ l.loginId }}</td>
+            <td align="center">{{ l.dob }}</td>
+            <td align="center">{{ l.roleName }}</td>
+            <td align="center">{{ l.address }}</td>
+            <td align="center">{{ l.gender }}</td>
+            <td align="center">{{ l.mobileNumber }}</td>
+            <td align="center"><a href="/ORS/User/Edit/{{ l.id }}">edit</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <br>
+
+    <table style="width: 100%">
+        <tr>
+            <td style="width: 30%">
+                {% if form.pageNo == 1 %}
+                <input type="submit" name="operation" value="previous" disabled>
+                {% else %}
+                <input type="submit" name="operation" value="previous">
+                {% endif %}
+            </td>
+
+            <td style="width: 30%">
+                <input type="submit" name="operation" value="new">
+            </td>
+
+            <td style="width: 25%">
+                <input type="submit" name="operation" value="delete">
+            </td>
+
+            <td style="text-align: right;">
+                {% if pageList|length < 5 or form.lastId == form.maxId %}
+                <input type="submit" name="operation" value="next" disabled>
+                {% else %}
+                <input type="submit" name="operation" value="next">
+                {% endif %}
+            </td>
+        </tr>
+    </table>
+    {% include "Footer.html" %}
+
+</form>
 </body>
 </html>

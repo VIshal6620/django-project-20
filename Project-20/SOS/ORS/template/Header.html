@@ -46,5 +46,46 @@
 <a href="/ORS/Logout/"><b>Logout</b></a>
 {% endif %}
 <hr>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    let selectAll = document.getElementById("selectall");
+    let checkboxes = document.getElementsByClassName("case");
+
+    // Select All
+    selectAll.onclick = function () {
+        for (let i = 0; i < checkboxes.length; i++) {
+            checkboxes[i].checked = this.checked;
+        }
+    };
+
+    // Auto update Select All
+    for (let i = 0; i < checkboxes.length; i++) {
+        checkboxes[i].onclick = function () {
+            let checkedCount = 0;
+            for (let j = 0; j < checkboxes.length; j++) {
+                if (checkboxes[j].checked) {
+                    checkedCount++;
+                }
+            }
+            selectAll.checked = (checkedCount === checkboxes.length);
+        };
+    }
+});
+
+// Delete validation
+function validateDelete() {
+    let operation = event.submitter.value;
+    if (operation === "delete") {
+        let checked = document.querySelectorAll(".case:checked");
+        if (checked.length === 0) {
+            alert("Please select at least one record to delete");
+            return false;
+        }
+        return confirm("Are you sure you want to delete selected records?");
+    }
+    return true;
+}
+</script>
 </body>
 </html>

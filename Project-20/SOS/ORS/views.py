@@ -45,7 +45,3 @@ def index(request):
     return res
 
 
-
-def index(request):
-    res = render(request, 'Welcome.html')
-    return res
