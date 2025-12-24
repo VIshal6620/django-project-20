@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                git url: 'https://github.com/SawanPanwar/django-docker-jenkins.git', branch: 'main'
+                git url: 'https://github.com/VIshal6620/django-project-20.git', branch: 'main'
             }
         }
 
