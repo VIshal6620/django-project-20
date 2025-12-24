@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Add Faculty</title>
     {% load static %}
-    <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
+    <link rel="icon" href="{% static 'favicon.ico' %}">
 </head>
 <body>
     {% include "Header.html" %}
@@ -12,98 +12,117 @@
         {% csrf_token %}
         <div align="center">
             <h1>Add Faculty</h1>
-            {% if form.error %}
-                <h3><font color="red">{{ form.message }}</font></h3>
-            {% else %}
-                <h3><font color="green">{{ form.message }}</font></h3>
+
+            {% if form.message %}
+                <h3 style="color: {% if form.error %}red{% else %}green{% endif %};">
+                    {{ form.message }}
+                </h3>
             {% endif %}
 
             <table>
                 <input type="hidden" name="id" value="{{ form.id }}">
+
                 <tr>
                     <th>First Name:</th>
                     <td><input type="text" name="firstName" value="{{ form.firstName }}"></td>
-                    <td style="position: fixed; color: red;">{{ form.inputError.firstName }}</td>
+                    <td style="color:red;">{{ form.inputError.firstName }}</td>
                 </tr>
+
                 <tr>
                     <th>Last Name:</th>
                     <td><input type="text" name="lastName" value="{{ form.lastName }}"></td>
-                    <td style="position: fixed; color: red;">{{ form.inputError.lastName }}</td>
+                    <td style="color:red;">{{ form.inputError.lastName }}</td>
                 </tr>
+
                 <tr>
                     <th>Email:</th>
                     <td><input type="text" name="email" value="{{ form.email }}"></td>
-                    <td style="position: fixed; color: red;">{{ form.inputError.email }}</td>
+                    <td style="color:red;">{{ form.inputError.email }}</td>
                 </tr>
+
                 <tr>
                     <th>Password:</th>
                     <td><input type="text" name="password" value="{{ form.password }}"></td>
-                    <td style="position: fixed; color: red;">{{ form.inputError.password }}</td>
+                    <td style="color:red;">{{ form.inputError.password }}</td>
                 </tr>
+
                 <tr>
                     <th>Address:</th>
                     <td><input type="text" name="address" value="{{ form.address }}"></td>
-                    <td style="position: fixed; color: red;">{{ form.inputError.address }}</td>
+                    <td style="color:red;">{{ form.inputError.address }}</td>
                 </tr>
+
                 <tr>
                     <th>Gender:</th>
                     <td>
-                        <select name="gender" style="width:100%">
-                            <option value="{{ form.gender }}">{{ form.gender }}</option>
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
+                        <select name="gender">
+                            <option value="">Select Gender</option>
+                            <option value="Male" {% if form.gender == "Male" %}selected{% endif %}>Male</option>
+                            <option value="Female" {% if form.gender == "Female" %}selected{% endif %}>Female</option>
                         </select>
                     </td>
-                    <td style="position: fixed; color: red;">{{ form.inputError.gender }}</td>
+                    <td style="color:red;">{{ form.inputError.gender }}</td>
                 </tr>
+
                 <tr>
                     <th>DOB:</th>
-                    <td><input type="date" name="dob" value="{{ form.dob }}" style="width: 98%;"></td>
-                    <td style="position: fixed; color: red;">{{ form.inputError.dob }}</td>
+                    <td><input type="date" name="dob" value="{{ form.dob }}"></td>
+                    <td style="color:red;">{{ form.inputError.dob }}</td>
                 </tr>
+
                 <tr>
                     <th>College:</th>
                     <td>
-                        <select name="collegeId" style="width:100%">
-                            <option value="{{ form.collegeId }}">{{ form.collegeName }}</option>
+                        <select name="collegeId">
+                            <option value="">Select College</option>
                             {% for college in collegeList %}
-                                <option value="{{ college.id }}">{{ college.name }}</option>
+                                <option value="{{ college.id }}" {% if form.collegeId|stringformat:"s" == college.id|stringformat:"s" %}selected{% endif %}>
+                                    {{ college.name }}
+                                </option>
                             {% endfor %}
                         </select>
                     </td>
-                    <td style="position: fixed; color: red;">{{ form.inputError.collegeId }}</td>
+                    <td style="color:red;">{{ form.inputError.collegeId }}</td>
                 </tr>
+
                 <tr>
                     <th>Course:</th>
                     <td>
-                        <select name="courseId" style="width:100%">
-                            <option value="{{ form.courseId }}">{{ form.courseName }}</option>
+                        <select name="courseId">
+                            <option value="">Select Course</option>
                             {% for course in courseList %}
-                                <option value="{{ course.id }}">{{ course.name }}</option>
+                                <option value="{{ course.id }}" {% if form.courseId|stringformat:"s" == course.id|stringformat:"s" %}selected{% endif %}>
+                                    {{ course.name }}
+                                </option>
                             {% endfor %}
                         </select>
                     </td>
-                    <td style="position: fixed; color: red;">{{ form.inputError.courseId }}</td>
+                    <td style="color:red;">{{ form.inputError.courseId }}</td>
                 </tr>
+
                 <tr>
                     <th>Subject:</th>
                     <td>
-                        <select name="subjectId" style="width:100%">
-                            <option value="{{ form.subjectId }}">{{ form.subjectName }}</option>
+                        <select name="subjectId">
+                            <option value="">Select Subject</option>
                             {% for subject in subjectList %}
-                                <option value="{{ subject.id }}">{{ subject.name }}</option>
+                                <option value="{{ subject.id }}" {% if form.subjectId|stringformat:"s" == subject.id|stringformat:"s" %}selected{% endif %}>
+                                    {{ subject.name }}
+                                </option>
                             {% endfor %}
                         </select>
                     </td>
-                    <td style="position: fixed; color: red;">{{ form.inputError.subjectId }}</td>
+                    <td style="color:red;">{{ form.inputError.subjectId }}</td>
                 </tr>
+
                 <tr>
-                    <th></th>
-                    <td><input type="submit" value="save"></td>
+                    <td></td>
+                    <td><input type="submit" value="Save"></td>
+                    <td></td>
                 </tr>
             </table>
         </div>
     </form>
+    {% include "Footer.html" %}
 </body>
-{%include "Footer.html"%}
 </html>

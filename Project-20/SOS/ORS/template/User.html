@@ -58,13 +58,21 @@
                 <th>Gender:</th>
                 <td>
                     <select name="gender" style="width:100%">
-                        <option value="{{ form.gender }}">{{form.gender}}</option>
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
+                        <option value="">--Select Gender--</option>
+                        <option value="Male" {% if form.gender == "Male" %}selected{% endif %}>Male</option>
+
+
+
+                        <option value="Female" {% if form.gender == "Female" %}selected{% endif %}>Female</option>
+
+
+
                     </select>
                 </td>
-                <td style="position: fixed; color: red;">{{ form.inputError.gender }}</td>
+                <td style="color:red;">{{ form.inputError.gender }}</td>
             </tr>
+
+
             <tr>
                 <th>Mobile:</th>
                 <td><input type="text" name="mobileNumber" value="{{form.mobileNumber}}"></td>
@@ -74,14 +82,23 @@
                 <th>Role:</th>
                 <td>
                     <select name="roleId" style="width:100%">
-                        <option value="{{form.roleId}}">{{ form.roleName }}</option>
+                        <option value="">--Select Role--</option>
+
                         {% for role in roleList %}
-                        <option value="{{ role.id }}">{{ role.name }}</option>
+                        <option value="{{ role.id }}"
+                                {% if form.roleId|stringformat:"s" == role.id|stringformat:"s" %}
+
+                        selected
+                        {% endif %}>
+                        {{ role.name }}
+                        </option>
                         {% endfor %}
                     </select>
                 </td>
-                <td style="position: fixed; color: red;">{{ form.inputError.roleId }}</td>
+                <td style="color:red;">{{ form.inputError.roleId }}</td>
             </tr>
+
+
             <tr>
                 <th></th>
                 <td><input type="submit" value="save"></td>

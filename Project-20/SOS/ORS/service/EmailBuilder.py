@@ -15,9 +15,7 @@ class EmailBuilder:
     def change_password(params):
         msg = ""
         msg += "Password Changed Successfully\n"
-        # msg += f"Hi {params['firstName']} {params['lastName']}, your password has been updated.\n\n"
-        # msg += f"Login ID: {params['loginId']}\n"
-        # msg += f"New Password: {params['password']}\n"
+
 
         msg += f"Hi {params.firstName} {params.lastName}, your password has been updated.\n\n"
         msg += f"Login ID: {params.loginId}\n"
