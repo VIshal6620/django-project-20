@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% load static %}
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
+</head>
+<body>
+{% include "Header.html" %}
+<form method="POST">
+    {% csrf_token %}
+    <div align="center">
+        <h1>Add Client</h1>
+        {% if form.error %}
+        <h3><font color="red"> {{ form.message }} </font></h3>
+        {% else %}
+        <h3><font color="green"> {{ form.message }} </font></h3>
+        {% endif %}
+
+        <table>
+            <input type="hidden" name="id" value="{{form.id}}">
+
+            <tr>
+                <th>fullName:</th>
+                <td><input type="text" name="fullName" value="{{form.fullName}}"></td>
+                <td style="position: fixed; color: red;">{{ form.inputError.fullName }}</td>
+            </tr>
+
+            <tr>
+                <th>appoinmentDate:</th>
+                <td><input type="date" name="appoinmentDate" value="{{form.appoinmentDate}}"></td>
+                <td style="position: fixed; color: red;">{{ form.inputError.appoinmentDate }}</td>
+            </tr>
+
+            <tr>
+                <th>phone:</th>
+                <td><input type="text" name="phone" value="{{form.phone}}"></td>
+                <td style="position: fixed; color: red;">{{ form.inputError.phone }}</td>
+            </tr>
+            <tr>
+                <th>Illness:</th>
+                <td>
+                    <select name="illness" style="width:100%">
+                        <option value="">--Select illness--</option>
+
+                        <option value="Fever"
+                                {% if form.illness == "Fever" %}selected{% endif %}>Fever</option>
+
+                        <option value="Cold"
+                                {% if form.illness == "Cold" %}selected{% endif %}>Cold</option>
+
+                        <option value="Cough"
+                                {% if form.illness == "Cough" %}selected{% endif %}>Cough</option>
+
+                        <option value="Headache"
+                                {% if form.illness == "Headache" %}selected{% endif %}>Headache</option>
+
+                    </select>
+                </td>
+                <td style="color:red;">{{ form.inputError.illness }}</td>
+            </tr>
+            <tr>
+
+                <th></th>
+                <td><input type="submit" value="save"></td>
+            </tr>
+        </table>
+    </div>
+</form>
+</body>
+</html>
+{% include "Footer.html" %}

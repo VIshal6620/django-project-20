@@ -26,6 +26,10 @@ from .ctl.TimeTableCtl import TimeTableCtl
 from .ctl.TimeTableListCtl import TimeTableListCtl
 from .ctl.ForgetPasswordCtl import ForgetPasswordCtl
 from .ctl.ChangePasswordCtl import ChangePasswordCtl
+from .ctl.ClientCtl import ClientCtl
+from .ctl.ClientListCtl import ClientListCtl
+from .ctl.PurchaseOrderCtl import PurchaseOrderCtl
+from .ctl.PurchaseOrderListCtl import PurchaseOrderListCtl
 
 
 @csrf_exempt

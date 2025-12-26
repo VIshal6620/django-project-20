@@ -127,3 +127,22 @@ class TimeTable(models.Model):
 
     class Meta:
         db_table = 'sos_timetable'
+
+class Client(models.Model):
+    fullName = models.CharField(max_length=50)
+    appoinmentDate = models.DateField()
+    phone = models.CharField(max_length=15)
+    illness = models.CharField(max_length=50)
+
+    class Meta:
+        db_table = 'sos_client'
+
+class PurchaseOrder(models.Model):
+    totalQuantity = models.CharField(max_length=50)
+    product = models.CharField(max_length=50)
+    orderDate = models.DateField()
+    totalCost = models.CharField(max_length=25)
+
+
+    class Meta:
+        db_table ='sos_purchaseorder'

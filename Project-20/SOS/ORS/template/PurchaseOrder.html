@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% load static %}
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
+</head>
+<body>
+{% include "Header.html" %}
+<form method="POST">
+    {% csrf_token %}
+    <div align="center">
+        <h1>Add PurchaseOrder</h1>
+        {% if form.error %}
+        <h3><font color="red"> {{ form.message }} </font></h3>
+        {% else %}
+        <h3><font color="green"> {{ form.message }} </font></h3>
+        {% endif %}
+
+        <table>
+            <input type="hidden" name="id" value="{{form.id}}">
+
+            <tr>
+                <th>TotalQuantity:</th>
+                <td><input type="text" name="totalQuantity" value="{{form.totalQuantity}}"></td>
+                <td style="position: fixed; color: red;">{{ form.inputError.totalQuantity }}</td>
+            </tr>
+            <tr>
+                <th>Product:</th>
+                <td>
+                    <select name="product" style="width:100%">
+                        <option value="">--Select product--</option>
+
+                        <option value="Laptop"
+                                {% if form.product == "Laptop" %}selected{% endif %}>Laptop</option>
+
+
+                        <option value="Tablet"
+                                {% if form.product == "Tablet" %}selected{% endif %}>Tablet</option>
+
+
+                        <option value="Monitor"
+                                {% if form.product == "Monitor" %}selected{% endif %}>Monitor</option>
+
+
+                    </select>
+                </td>
+                <td style="color:red;">{{ form.inputError.product }}</td>
+            </tr>
+
+            <tr>
+                <th>Order Date:</th>
+                <td>
+                    <input type="date" name="orderDate" value="{{ form.orderDate|date:'Y-m-d' }}" style="width:98%;">
+
+                </td>
+                <td style="color:red;">
+                    {{ form.inputError.orderDate }}
+                </td>
+            </tr>
+
+
+            <tr>
+                <th>TotalCost:</th>
+                <td><input type="text" name="totalCost" value="{{form.totalCost}}"></td>
+                <td style="position: fixed; color: red;">{{ form.inputError.totalCost }}</td>
+            </tr>
+
+            <tr>
+
+                <th></th>
+                <td><input type="submit" value="save"></td>
+            </tr>
+        </table>
+    </div>
+</form>
+</body>
+</html>
+{% include "Footer.html" %}

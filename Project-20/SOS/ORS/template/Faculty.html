@@ -24,38 +24,38 @@
 
                 <tr>
                     <th>First Name:</th>
-                    <td><input type="text" name="firstName" value="{{ form.firstName }}"></td>
+                    <td><input type="text" name="firstName" value="{{ form.firstName }}" style="width:98%"></td>
                     <td style="color:red;">{{ form.inputError.firstName }}</td>
                 </tr>
 
                 <tr>
                     <th>Last Name:</th>
-                    <td><input type="text" name="lastName" value="{{ form.lastName }}"></td>
+                    <td><input type="text" name="lastName" value="{{ form.lastName }}" style="width:98%"></td>
                     <td style="color:red;">{{ form.inputError.lastName }}</td>
                 </tr>
 
                 <tr>
                     <th>Email:</th>
-                    <td><input type="text" name="email" value="{{ form.email }}"></td>
+                    <td><input type="text" name="email" value="{{ form.email }}" style="width:98%"></td>
                     <td style="color:red;">{{ form.inputError.email }}</td>
                 </tr>
 
                 <tr>
                     <th>Password:</th>
-                    <td><input type="text" name="password" value="{{ form.password }}"></td>
+                    <td><input type="text" name="password" value="{{ form.password }}" style="width:98%"></td>
                     <td style="color:red;">{{ form.inputError.password }}</td>
                 </tr>
 
                 <tr>
                     <th>Address:</th>
-                    <td><input type="text" name="address" value="{{ form.address }}"></td>
+                    <td><input type="text" name="address" value="{{ form.address }}" style="width:98%"></td>
                     <td style="color:red;">{{ form.inputError.address }}</td>
                 </tr>
 
                 <tr>
                     <th>Gender:</th>
                     <td>
-                        <select name="gender">
+                        <select name="gender", style="width:100%">
                             <option value="">Select Gender</option>
                             <option value="Male" {% if form.gender == "Male" %}selected{% endif %}>Male</option>
                             <option value="Female" {% if form.gender == "Female" %}selected{% endif %}>Female</option>
@@ -66,14 +66,14 @@
 
                 <tr>
                     <th>DOB:</th>
-                    <td><input type="date" name="dob" value="{{ form.dob }}"></td>
+                    <td><input type="date" name="dob" value="{{ form.dob }}"  style="width:100%"></td>
                     <td style="color:red;">{{ form.inputError.dob }}</td>
                 </tr>
 
                 <tr>
                     <th>College:</th>
                     <td>
-                        <select name="collegeId">
+                        <select name="collegeId"  style="width:100%">
                             <option value="">Select College</option>
                             {% for college in collegeList %}
                                 <option value="{{ college.id }}" {% if form.collegeId|stringformat:"s" == college.id|stringformat:"s" %}selected{% endif %}>
@@ -88,7 +88,7 @@
                 <tr>
                     <th>Course:</th>
                     <td>
-                        <select name="courseId">
+                        <select name="courseId" style="width:100%">
                             <option value="">Select Course</option>
                             {% for course in courseList %}
                                 <option value="{{ course.id }}" {% if form.courseId|stringformat:"s" == course.id|stringformat:"s" %}selected{% endif %}>
@@ -103,7 +103,7 @@
                 <tr>
                     <th>Subject:</th>
                     <td>
-                        <select name="subjectId">
+                        <select name="subjectId" style="width:100%">
                             <option value="">Select Subject</option>
                             {% for subject in subjectList %}
                                 <option value="{{ subject.id }}" {% if form.subjectId|stringformat:"s" == subject.id|stringformat:"s" %}selected{% endif %}>
